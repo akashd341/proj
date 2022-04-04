@@ -11,6 +11,7 @@ import {
   Drawer,
   Container
 } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -27,6 +28,7 @@ import Track from './Track';
 import { blue } from '@material-ui/core/colors';
 import PeopleIcon from '@material-ui/icons/People';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
+import Login from './Login';
 
 
 const drawerWidth = 120
@@ -89,7 +91,8 @@ const useStyles = makeStyles((theme)=>({
     marginLeft: 160  }
 }))
 
-function Layout(){
+function Layout(props){
+  const navigate = useNavigate();
    const classes = useStyles();
    const [anchorEl, setAnchorEl] = useState(null);
 
@@ -101,15 +104,17 @@ function Layout(){
     setAnchorEl(null);
   };
 
+ 
+
   
    
     return (
         <>
        
-        
+        {console.log(props.active)}
       <AppBar position = "relative" className = {classes.myappbar} >
         <Toolbar>
-          
+         { props.active?
           <Button
           aria-controls="customized-menu"
           variant="contained"
@@ -117,23 +122,33 @@ function Layout(){
          
 
            >
-           <Link to='/' style={{textDecoration: 'none',color: 'white'}}>Home</Link>
+           <Link to='/Home' style={{textDecoration: 'none',color: 'white'}}>Home</Link>
           </Button>
+:
+          <Button
+          aria-controls="customized-menu"
+          variant="contained"
+          color = "primary"
          
 
+           >
+           <Link to='/' style={{textDecoration: 'none',color: 'white'}}>Login</Link>
+          </Button>
+}
 
+{props.active?
           <div className={classes.menuButton}>
-          <Button
+          
+        <Button
         aria-controls="customized-menu"
-       
+        aria-haspopup="true"
         variant="contained"
         color="primary"
-        
+        onClick={()=>{navigate('/')}}
       >
-        <Link to = "/track" style={{textDecoration: ' none',color:'white'}}>Track</Link>
-        
+        Logout
       </Button>
-          
+       
       <Button
         aria-controls="customized-menu"
         aria-haspopup="true"
@@ -170,6 +185,9 @@ function Layout(){
         </StyledMenuItem>
       </StyledMenu>
     </div>
+    :
+    null
+      }
         </Toolbar>
        
       </AppBar>
@@ -177,6 +195,7 @@ function Layout(){
        
       </Typography>
      <Outlet/>
+    
        
        </>
           
